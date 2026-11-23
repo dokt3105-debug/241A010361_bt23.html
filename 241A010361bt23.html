@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game kiểm tra tốc độ</title>
+
+    <style>
+        #arena {
+            width: 600px;
+            height: 400px;
+            background-color: lightblue;
+            position: relative;
+        }
+
+        #target {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Game kiểm tra tốc độ</h2>
+
+    <p>Điểm: <span id="score">0</span></p>
+    <p>Thời gian: <span id="time">30</span> giây</p>
+
+    <button onclick="startGame()">Bắt đầu trò chơi</button>
+
+    <div id="arena">
+        <div id="target"></div>
+    </div>
+
+    <script>
+        let score = 0;
+        let time = 30;
+        let gameRunning = false;
+        let timer;
+
+        const target = document.getElementById("target");
+        const arena = document.getElementById("arena");
+
+        // Hàm di chuyển mục tiêu ngẫu nhiên
+        function moveTarget() {
+            let x = Math.random() * (600 - 30);
+            let y = Math.random() * (400 - 30);
+
+            target.style.left = x + "px";
+            target.style.top = y + "px";
+        }
+
+        // Bắt đầu trò chơi
+        function startGame() {
+            score = 0;
+            time = 30;
+            gameRunning = true;
+
+            document.getElementById("score").innerHTML = score;
+            document.getElementById("time").innerHTML = time;
+
+            target.style.display = "block";
+            moveTarget();
+
+            timer = setInterval(function() {
+                time--;
+                document.getElementById("time").innerHTML = time;
+
+                if (time == 0) {
+                    clearInterval(timer);
+                    gameRunning = false;
+                    target.style.display = "none";
+                    alert("Game kết thúc! Điểm của bạn: " + score);
+                }
+            }, 1000);
+        }
+
+        // Khi click vào mục tiêu
+        target.onclick = function() {
+            if (gameRunning == true) {
+                score++;
+                document.getElementById("score").innerHTML = score;
+                moveTarget();
+            }
+        };
+    </script>
+
+</body>
+</html>
